@@ -12,103 +12,169 @@ def create_connection():
 
 
 def initialize_db():
-    # Connect db
-    connection, cursor = create_connection()
+    connection = None
 
-    # Create table if not already exists
-    cursor.execute("""CREATE TABLE IF NOT EXISTS employees(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT,
-    role TEXT,
-    salary REAL
-    )""")
+    try:
+        # Connect db
+        connection, cursor = create_connection()
 
-    # Commit and close db
-    connection.commit()
-    connection.close()
+        # Create table if not already exists
+        cursor.execute("""CREATE TABLE IF NOT EXISTS employees(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        role TEXT,
+        salary REAL
+        )""")
+
+        # Update db
+        connection.commit()
+
+    except sqlite3.Error as error:
+        # Display error if something goes wrong
+        print(f"Database error: {error}")
+
+    finally:
+        # Close connection to db if connection was established
+        if connection:
+            connection.close()
 
 
 ### ADD, EDIT, DELETE EMPLOYEES ###
 
 
 def add_employee(name, role, salary):
-    # Connect db
-    connection, cursor = create_connection()
+    connection = None
 
-    # Add employee to db
-    cursor.execute(
-        """INSERT INTO employees (
-                   name,
-                   role,
-                   salary
-                   ) VALUES (
-                   ?,
-                   ?,
-                   ?
-                   )""",
-        (name, role, salary),
-    )
+    try:
+        # Connect db
+        connection, cursor = create_connection()
 
-    # Commit and close db
-    connection.commit()
-    connection.close()
+        # Add employee to db
+        cursor.execute(
+            """INSERT INTO employees (
+                    name,
+                    role,
+                    salary
+                    ) VALUES (
+                    ?,
+                    ?,
+                    ?
+                    )""",
+            (name, role, salary),
+        )
+
+        # Update db
+        connection.commit()
+
+    except sqlite3.Error as error:
+        # Display error if something goes wrong
+        print(f"Database error: {error}")
+
+    finally:
+        # Close connection to db if connection was established
+        if connection:
+            connection.close()
 
 
 def edit_employee(id, name, role, salary):
-    # Connect db
-    connection, cursor = create_connection()
+    connection = None
 
-    # Update employee
-    cursor.execute(
-        """UPDATE employees 
-                   SET name = ?,
-                   role = ?,
-                   salary = ?
-                   WHERE id = ? """,
-        (name, role, salary, id),
-    )
+    try:
+        # Connect db
+        connection, cursor = create_connection()
 
-    # Commit and close db
-    connection.commit()
-    connection.close()
+        # Update employee
+        cursor.execute(
+            """UPDATE employees 
+                    SET name = ?,
+                    role = ?,
+                    salary = ?
+                    WHERE id = ? """,
+            (name, role, salary, id),
+        )
+
+        # Update db
+        connection.commit()
+
+    except sqlite3.Error as error:
+        # Display error if something goes wrong
+        print(f"Database error: {error}")
+
+    finally:
+        # Close connection to db if connection was established
+        if connection:
+            connection.close()
 
 
 def delete_employee(id):
-    # Connect db
-    connection, cursor = create_connection()
+    connection = None
 
-    # Delete employee
-    cursor.execute("""DELETE FROM employees WHERE id = ?""", (id,))
+    try:
+        # Connect db
+        connection, cursor = create_connection()
 
-    # Commit and close db
-    connection.commit()
-    connection.close()
+        # Delete employee
+        cursor.execute("""DELETE FROM employees WHERE id = ?""", (id,))
+
+        # Update db
+        connection.commit()
+
+    except sqlite3.Error as error:
+        # Display error if something goes wrong
+        print(f"Database error: {error}")
+
+    finally:
+        # Close connection to db if connection was established
+        if connection:
+            connection.close()
 
 
 ### RETRIEVE DATA ###
 
 
 def get_all_employees():
-    # Connect db
-    connection, cursor = create_connection()
+    connection = None
 
-    # Retrieve employees
-    cursor.execute("""SELECT * FROM employees""")
-    employees = cursor.fetchall()
+    try:
+        # Connect db
+        connection, cursor = create_connection()
 
-    # Close db and return employees
-    connection.close()
-    return employees
+        # Retrieve employees
+        cursor.execute("""SELECT * FROM employees""")
+        employees = cursor.fetchall()
+
+        # Return employees
+        return employees
+
+    except sqlite3.Error as error:
+        # Display error if something goes wrong
+        print(f"Database error: {error}")
+
+    finally:
+        # Close connection to db if connection was established
+        if connection:
+            connection.close()
 
 
 def get_employee(id):
-    # Connect db
-    connection, cursor = create_connection()
+    connection = None
 
-    # Retrieve employee
-    cursor.execute("""SELECT * FROM employees WHERE id = ? """, (id,))
-    employee = cursor.fetchall()
+    try:
+        # Connect db
+        connection, cursor = create_connection()
 
-    # Close db and return employees
-    connection.close()
-    return employee
+        # Retrieve employee
+        cursor.execute("""SELECT * FROM employees WHERE id = ? """, (id,))
+        employee = cursor.fetchall()
+
+        # Return employee
+        return employee
+
+    except sqlite3.Error as error:
+        # Display error if something goes wrong
+        print(f"Database error: {error}")
+
+    finally:
+        # Close connection to db if connection was established
+        if connection:
+            connection.close()
