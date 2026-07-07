@@ -1,5 +1,7 @@
 import sqlite3
 
+### MANAGE DATABASE ###
+
 
 def create_connection():
     # Connect to the db
@@ -26,6 +28,9 @@ def initialize_db():
     connection.close()
 
 
+### ADD, EDIT, DELETE EMPLOYEES ###
+
+
 def add_employee(name, role, salary):
     # Connect db
     connection, cursor = create_connection()
@@ -49,6 +54,40 @@ def add_employee(name, role, salary):
     connection.close()
 
 
+def edit_employee(id, name, role, salary):
+    # Connect db
+    connection, cursor = create_connection()
+
+    # Update employee
+    cursor.execute(
+        """UPDATE employees 
+                   SET name = ?,
+                   role = ?,
+                   salary = ?
+                   WHERE id = ? """,
+        (name, role, salary, id),
+    )
+
+    # Commit and close db
+    connection.commit()
+    connection.close()
+
+
+def delete_employee(id):
+    # Connect db
+    connection, cursor = create_connection()
+
+    # Delete employee
+    cursor.execute("""DELETE FROM employees WHERE id = ?""", (id,))
+
+    # Commit and close db
+    connection.commit()
+    connection.close()
+
+
+### RETRIEVE DATA ###
+
+
 def get_all_employees():
     # Connect db
     connection, cursor = create_connection()
@@ -62,12 +101,12 @@ def get_all_employees():
     return employees
 
 
-def get_employee(employee_id):
+def get_employee(id):
     # Connect db
     connection, cursor = create_connection()
 
     # Retrieve employee
-    cursor.execute("""SELECT * FROM employees WHERE id = ? """, (employee_id,))
+    cursor.execute("""SELECT * FROM employees WHERE id = ? """, (id,))
     employee = cursor.fetchall()
 
     # Close db and return employees
