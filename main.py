@@ -1,4 +1,5 @@
 import database as db
+import controller as ctrl
 
 # Check if database exists or create a new one
 db.initialize_db()
@@ -19,5 +20,24 @@ while True:
 
     selection = int(input("Select an option (1-6): "))
 
-    if selection == 6:
-        break
+    match selection:
+        case 1:
+            ctrl.add_employee()
+            input("Press Enter to return to main menu")
+        case 2:
+            ctrl.edit_employee()
+            input("Press Enter to return to main menu")
+        case 3:
+            ctrl.delete_employee()
+            input("Press Enter to return to main menu")
+        case 4:
+            ctrl.get_all_employees()
+            input("Press Enter to return to main menu")
+        case 5:
+            ctrl.get_employee()
+            input("Press Enter to return to main menu")
+        case 6:
+            break
+        case _:
+            print("Invalid option. Please select a number between 1 and 6.")
+            print()

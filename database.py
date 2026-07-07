@@ -66,9 +66,13 @@ def add_employee(name, role, salary):
         # Update db
         connection.commit()
 
+        return True
+
     except sqlite3.Error as error:
         # Display error if something goes wrong
         print(f"Database error: {error}")
+
+        return False
 
     finally:
         # Close connection to db if connection was established
@@ -96,9 +100,13 @@ def edit_employee(id, name, role, salary):
         # Update db
         connection.commit()
 
+        return True
+
     except sqlite3.Error as error:
         # Display error if something goes wrong
         print(f"Database error: {error}")
+
+        return False
 
     finally:
         # Close connection to db if connection was established
@@ -119,9 +127,13 @@ def delete_employee(id):
         # Update db
         connection.commit()
 
+        return True
+
     except sqlite3.Error as error:
         # Display error if something goes wrong
         print(f"Database error: {error}")
+
+        return False
 
     finally:
         # Close connection to db if connection was established
