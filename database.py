@@ -23,9 +23,9 @@ def initialize_db():
         # Create table if not already exists
         cursor.execute("""CREATE TABLE IF NOT EXISTS employees(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
-        role TEXT,
-        salary REAL
+        name TEXT NOT NULL,
+        role TEXT NOT NULL,
+        salary REAL CHECK(salary >= 0)
         )""")
 
         # Update db
