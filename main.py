@@ -9,6 +9,7 @@ db.initialize_db()
 print()
 print("### Welcome to Staff Tracker ###")
 
+# Menu logic
 while True:
     print("""
 ### MAIN MENU ###

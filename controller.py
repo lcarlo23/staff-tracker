@@ -5,6 +5,7 @@ import locale
 locale.setlocale(locale.LC_ALL, "")
 
 
+# Add employee to database
 def add_employee():
     # Ask user to input data
     print()
@@ -80,6 +81,7 @@ Salary: {locale.currency(salary, grouping=True)}""")
     print()
 
 
+# Update employee information
 def edit_employee():
 
     # Check db data
@@ -181,6 +183,7 @@ def edit_employee():
     print()
 
 
+# Delete employee from database
 def delete_employee():
 
     # Check db data
@@ -246,6 +249,7 @@ Salary: {locale.currency(employee[3], grouping=True)}
         return
 
 
+# Retrieve employee data from db
 def get_employee():
 
     # Check db data
@@ -293,6 +297,7 @@ def get_employee():
           """)
 
 
+# Retrieve all employees data from db
 def get_all_employees():
 
     # Check db data
@@ -315,6 +320,7 @@ def get_all_employees():
           """)
 
 
+# Retrieve statistics from database
 def get_company_stats():
     # Check db data
     if is_db_empty():
@@ -336,6 +342,7 @@ Lowest Salary: {locale.currency(stats[4], grouping=True)}
           """)
 
 
+# Check if there is data in the database
 def is_db_empty():
     employees = db.get_all_employees()
 

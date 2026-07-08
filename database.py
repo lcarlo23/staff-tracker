@@ -3,6 +3,7 @@ import sqlite3
 ### MANAGE DATABASE ###
 
 
+# Connect to database
 def create_connection():
     # Connect to the db
     connection = sqlite3.connect("directory.db")
@@ -11,6 +12,7 @@ def create_connection():
     return connection, cursor
 
 
+# Create table if not exists and catch errors if there is problems with database
 def initialize_db():
     connection = None
 
@@ -42,6 +44,7 @@ def initialize_db():
 ### ADD, EDIT, DELETE EMPLOYEES ###
 
 
+# Add employee to database
 def add_employee(name, role, salary):
     connection = None
 
@@ -80,6 +83,7 @@ def add_employee(name, role, salary):
             connection.close()
 
 
+# Update employee information
 def edit_employee(id, name, role, salary):
     connection = None
 
@@ -114,6 +118,7 @@ def edit_employee(id, name, role, salary):
             connection.close()
 
 
+# Delete employee from database
 def delete_employee(id):
     connection = None
 
@@ -144,6 +149,7 @@ def delete_employee(id):
 ### RETRIEVE DATA ###
 
 
+# Retrieve all employees from database
 def get_all_employees():
     connection = None
 
@@ -168,6 +174,7 @@ def get_all_employees():
             connection.close()
 
 
+# Retrieve employee from id
 def get_employee(id):
     connection = None
 
@@ -192,6 +199,7 @@ def get_employee(id):
             connection.close()
 
 
+# Retrieve aggregate data from database
 def get_company_stats():
     connection = None
 
