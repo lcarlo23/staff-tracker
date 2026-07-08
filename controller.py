@@ -6,51 +6,117 @@ locale.setlocale(locale.LC_ALL, "")
 
 
 def add_employee():
-    try:
-        # Ask user to input data
-        print()
-        name = input("Employee Full Name: ")
-        role = input("Employee Role: ")
-        salary = float(input("Employee Salary (only numbers): "))
+    # Ask user to input data
+    print()
+    print("### Add New Employee ###")
+    print()
 
-        # Add user to db
-        added = db.add_employee(name, role, salary)
+    # Name Validation
+    while True:
+        name = input("Employee Full Name: ").strip()
 
-        # Success/Fail message
-        print()
-        if added:
-            print(f"{name} added successfully!")
-        else:
-            print("There was an error adding the employee")
-        print()
-    except Exception as error:
+        if not name:
+            print()
+            print("Error: Name cannot be empty!")
+            print()
+            continue
+
+        if not name.replace(" ", "").isalpha():
+            print()
+            print("Error: Name must contain only letters!")
+            print()
+            continue
+
+        break
+
+    # Role Validation
+    while True:
+        role = input("Employee Role: ").strip()
+
+        if not role:
+            print()
+            print("Error: Role cannot be empty!")
+            print()
+            continue
+
+        if not role.replace(" ", "").isalpha():
+            print()
+            print("Error: Role must contain only letters!")
+            print()
+            continue
+
+        break
+
+    # Salary Validation
+    while True:
+        try:
+            salary = float(input("Employee Salary (only numbers): "))
+            if salary < 0:
+                print()
+                print("Error: Salary cannot be negative!")
+                print()
+                continue
+
+            break
+
+        except ValueError:
+            print()
+            print("Error: Please enter a valid decimal number for salary!")
+            print()
+
+    # Add user to db
+    added = db.add_employee(name, role, salary)
+
+    # Success/Fail message
+    print()
+    if added:
+        print("Employee added successfully:")
         print(f"""
-Error adding the employee:
-{error}
-""")
-
-
-def get_employee():
-    # Ask user for ID
-    id = int(input("Employee ID: "))
-
-    # Retrieve employee from db
-    employee = db.get_employee(id)[0]
-
-    # Print employee data
-    print(f"""
-        Name: {employee[1]}
-        Role: {employee[2]}
-        Salary: {locale.currency(employee[3], grouping=True)}
-          """)
+Name: {name}
+Role: {role}
+Salary: {locale.currency(salary, grouping=True)}""")
+    else:
+        print("There was an error adding the employee")
+    print()
 
 
 def edit_employee():
-    # Ask user for ID
-    id = int(input("Employee ID: "))
+
+    # Check db data
+    if is_db_empty():
+        print()
+        print("There are no employees yet!")
+        print()
+        return
+
+    # Ask user for ID and validate
+    while True:
+        try:
+            id = int(input("Employee ID: "))
+            if id < 0:
+                print()
+                print("Error: ID cannot be negative!")
+                print()
+                continue
+
+            break
+
+        except ValueError:
+            print()
+            print("Error: Please enter a valid integer number for the ID!")
+            print()
 
     # Retrieve employee data
-    employee = db.get_employee(id)[0]
+    employee_data = db.get_employee(id)
+
+    # Check if employee with that id exists
+    if not employee_data:
+        print()
+        print(f"Error: No employee found with ID {id}")
+        print()
+        return
+
+    employee = employee_data[0]
     emp_name = employee[1]
     emp_role = employee[2]
     emp_salary = employee[3]
@@ -59,19 +125,49 @@ def edit_employee():
     print()
     print("Leave empty to keep the current values")
     print()
-    name = input(f"Full Name (current: {emp_name}): ").strip()
-    role = input(f"Role (current: {emp_role}): ").strip()
-    salary = input(f"Salary (current: {emp_salary}): ").strip()
 
-    # Check if inputs are empty
-    if name == "":
-        name = emp_name
+    # Name Validation
+    while True:
+        name = input(f"Full Name (current: {emp_name}): ").strip()
 
-    if role == "":
-        role = emp_role
+        if name == "":
+            name = emp_name
+            break
+        if name.replace(" ", "").isalpha():
+            break
 
-    if salary == "":
-        salary = emp_salary
+        print("Error: Name must contain only letters!")
+
+    # Role Validation
+    while True:
+        role = input(f"Role (current: {emp_role}): ").strip()
+
+        if role == "":
+            role = emp_role
+            break
+        if role.replace(" ", "").isalpha():
+            break
+
+        print("Error: Role must contain only letters!")
+
+    # Salary Validation
+    while True:
+        salary = input(f"Salary (current: {emp_salary}): ").strip()
+
+        if salary == "":
+            salary = emp_salary
+            break
+
+        try:
+            salary = float(salary)
+
+            if salary < 0:
+                print("Error: Salary cannot be negative!")
+                continue
+            break
+
+        except ValueError:
+            print("Error: Please enter a valid decimal number for salary!")
 
     # Update employee on db
     edited = db.edit_employee(id, name, role, salary)
@@ -87,16 +183,42 @@ def edit_employee():
 
 def delete_employee():
 
+    # Check db data
     if is_db_empty():
         print()
         print("There are no employees yet!")
         print()
         return
 
-    # Ask user for ID
-    id = int(input("Employee ID: "))
+    # Ask user for ID and validate
+    while True:
+        try:
+            id = int(input("Employee ID: "))
+            if id < 0:
+                print()
+                print("Error: ID cannot be negative!")
+                print()
+                continue
 
-    employee = db.get_employee(id)[0]
+            break
+
+        except ValueError:
+            print()
+            print("Error: Please enter a valid integer number for the ID!")
+            print()
+
+    # Retrieve employee data
+    employee_data = db.get_employee(id)
+
+    # Check if employee with that id exists
+    if not employee_data:
+        print()
+        print(f"Error: No employee found with ID {id}")
+        print()
+        return
+
+    # Ask for confirmation before deletion
+    employee = employee_data[0]
 
     confirm = input(f"""
 Are you sure you want to delete the following employee?
@@ -124,16 +246,66 @@ Salary: {locale.currency(employee[3], grouping=True)}
         return
 
 
-def get_all_employees():
+def get_employee():
 
+    # Check db data
     if is_db_empty():
         print()
         print("There are no employees yet!")
         print()
         return
 
+    # Ask user for ID and validate
+    while True:
+        try:
+            id = int(input("Employee ID: "))
+            if id < 0:
+                print()
+                print("Error: ID cannot be negative!")
+                print()
+                continue
+
+            break
+
+        except ValueError:
+            print()
+            print("Error: Please enter a valid integer number for the ID!")
+            print()
+
+    # Retrieve employee data
+    employee_data = db.get_employee(id)
+
+    # Check if employee with that id exists
+    if not employee_data:
+        print()
+        print(f"Error: No employee found with ID {id}")
+        print()
+        return
+
+    # Retrieve employee from db
+    employee = employee_data[0]
+
+    # Print employee data
+    print(f"""
+        Name: {employee[1]}
+        Role: {employee[2]}
+        Salary: {locale.currency(employee[3], grouping=True)}
+          """)
+
+
+def get_all_employees():
+
+    # Check db data
+    if is_db_empty():
+        print()
+        print("There are no employees yet!")
+        print()
+        return
+
+    # Retrieve all table rows
     employees = db.get_all_employees()
 
+    # Print all rows
     for employee in employees:
         print(f"""
               ID: {employee[0]}
