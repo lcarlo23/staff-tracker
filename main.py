@@ -15,15 +15,18 @@ while True:
           
 1. Add new employee
 2. Edit employee
-3. Delete employee
-4. Get all employees
-5. Get an employee
-6. Exit
+3. Delete employee          
+4. Get employee data
+5. Get all employees data
+6. Company Statistics
+0. Exit
     """)
 
-    selection = int(input("Select an option (1-6): "))
+    selection = int(input("Select an option (0-6): "))
 
     match selection:
+        case 0:
+            break
         case 1:
             ctrl.add_employee()
         case 2:
@@ -31,11 +34,11 @@ while True:
         case 3:
             ctrl.delete_employee()
         case 4:
-            ctrl.get_all_employees()
-        case 5:
             ctrl.get_employee()
+        case 5:
+            ctrl.get_all_employees()
         case 6:
-            break
+            ctrl.get_company_stats()
         case _:
             print()
             print("Invalid option. Please select a number between 1 and 6.")

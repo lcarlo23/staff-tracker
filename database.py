@@ -190,3 +190,35 @@ def get_employee(id):
         # Close connection to db if connection was established
         if connection:
             connection.close()
+
+
+def get_company_stats():
+    connection = None
+
+    try:
+        # Connect db
+        connection, cursor = create_connection()
+
+        # Retrieve stats
+        cursor.execute("""
+                    SELECT
+                        COUNT(*),
+                        SUM(salary),
+                        AVG(salary),
+                        MAX(salary),
+                        MIN(salary)
+                    FROM employees
+        """)
+
+        # Return stats
+        stats = cursor.fetchone()
+        return stats
+
+    except sqlite3.Error as error:
+        # Display error if something goes wrong
+        print(f"Database error: {error}")
+
+    finally:
+        # Close connection to db if connection was established
+        if connection:
+            connection.close()

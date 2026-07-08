@@ -315,6 +315,27 @@ def get_all_employees():
           """)
 
 
+def get_company_stats():
+    # Check db data
+    if is_db_empty():
+        print()
+        print("There are no employees yet!")
+        print()
+        return
+
+    stats = db.get_company_stats()
+
+    print(f"""
+### COMPANY STATISTICS ###
+          
+Employees: {stats[0]}
+Total of Salaries: {locale.currency(stats[1], grouping=True)}
+Average Salary: {locale.currency(stats[2], grouping=True)}
+Highest Salary: {locale.currency(stats[3], grouping=True)}
+Lowest Salary: {locale.currency(stats[4], grouping=True)}
+          """)
+
+
 def is_db_empty():
     employees = db.get_all_employees()
 
