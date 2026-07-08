@@ -310,14 +310,21 @@ def get_all_employees():
     # Retrieve all table rows
     employees = db.get_all_employees()
 
+    # Create table headers
+    print("\n" + "=" * 70)
+    print(f"{'ID':<5} | {'NAME':<20} | {'ROLE':<20} | {'SALARY':<15}")
+    print("-" * 70)
+
     # Print all rows
     for employee in employees:
-        print(f"""
-              ID: {employee[0]}
-              Name: {employee[1]}
-              Role: {employee[2]}
-              Salary: {locale.currency(employee[3], grouping=True)}
-          """)
+        id = employee[0]
+        name = employee[1]
+        role = employee[2]
+        salary = locale.currency(employee[3], grouping=True)
+
+        print(f"{id:<5} | {name:<20} | {role:<20} | {salary:<15}")
+
+    print("=" * 70 + "\n")
 
 
 # Retrieve statistics from database

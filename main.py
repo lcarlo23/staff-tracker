@@ -20,10 +20,9 @@ while True:
 4. Get employee data
 5. Get all employees data
 6. Company Statistics
-0. Exit
     """)
 
-    selection = int(input("Select an option (0-6): "))
+    selection = int(input("Select an option (1-6, 0 to exit): "))
 
     match selection:
         case 0:
