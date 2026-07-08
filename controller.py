@@ -8,6 +8,7 @@ locale.setlocale(locale.LC_ALL, "")
 def add_employee():
     try:
         # Ask user to input data
+        print()
         name = input("Employee Full Name: ")
         role = input("Employee Role: ")
         salary = float(input("Employee Salary (only numbers): "))
