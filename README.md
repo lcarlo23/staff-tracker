@@ -16,7 +16,7 @@ I created this project to improve my software engineering skills, specifically l
    - **6**: View company stats and salary totals.
    - **0**: Exit the program safely.
 
-[Software Demo Video](YOUTUBE_LINK)
+[Software Demo Video](https://youtu.be/vzeNlcyGn8g)
 
 # Relational Database
 
